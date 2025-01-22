@@ -1,6 +1,5 @@
 package com.danny.forlinkbackendspringboot.member;
 
-import com.danny.forlinkbackendspringboot.nation.Nation;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +18,4 @@ public class MemberResponse {
     private Integer nationId; // 국가 일련번호
     private String loginId; // 회원 로그인 아이디
     private String name; // 회원 이름
-
-    private String nationName;
 }

@@ -7,8 +7,8 @@ WORKDIR /app
 # 3. Copy the JAR file into the container
 COPY build/libs/*.jar app.jar
 
-# 4. Expose port 10001
+# 4. Expose port 10001 (컨테이너 내부 포트)
 EXPOSE 10001
 
-# 5. Run the application on port 10000
-ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=10000"]
+# 5. Run the application on port 10001
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=10001"]
