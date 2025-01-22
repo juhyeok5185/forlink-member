@@ -15,5 +15,4 @@ ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=10001"]
 
 #docker build -t forlink-member .
 #docker run --name forlink-member -d -p 10001:10001 forlink-member
-#docker network connect forlink-network forlink-nation
 #docker network connect forlink-network forlink-member
