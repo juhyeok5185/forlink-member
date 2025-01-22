@@ -13,4 +13,7 @@ EXPOSE 10001
 # 5. Run the application on port 10001
 ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=10001"]
 
-#docker run -d --name forlink-member -p 10001:10001 forlink-member:10001
+#docker build -t forlink-member .
+#docker run --name forlink-member -d -p 10001:10001 forlink-member
+#docker network connect forlink-network forlink-nation
+#docker network connect forlink-network forlink-member
