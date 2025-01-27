@@ -1,3 +1,4 @@
+# forlink-member-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -5,9 +6,21 @@ metadata:
 spec:
   selector:
     app: forlink-member
-  type: NodePort
+  type: ClusterIP  # NodePort -> ClusterIP로 변경
   ports:
     - protocol: TCP
       port: 10001
       targetPort: 10001
-      nodePort: 30001
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: forlink-member-service
+#spec:
+#  selector:
+#    app: forlink-member
+#  type: NodePort
+#  ports:
+#    - protocol: TCP
+#      port: 10001
+#      targetPort: 10001
+#      nodePort: 30001

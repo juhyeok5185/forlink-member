@@ -26,3 +26,5 @@ ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=10001"]
 #쿠버네티스 삭제
 #kubectl delete deployment forlink-member-deployment
 #kubectl delete service forlink-member-service
+
+
