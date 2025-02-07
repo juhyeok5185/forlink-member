@@ -16,24 +16,14 @@ public class MemberService {
     private final MemberReader memberReader;
     private final MemberStore memberStore;
     private final ModelMapper modelMapper;
-//    private final NationProducer nationProducer;
     private final PasswordEncoder passwordEncoder;
 
-    public MemberResponse save(MemberRequest request) {
-        Member member = Member.builder()
-                .loginId(AES256Utils.encrypt(request.getLoginId()))
-                .password(passwordEncoder.encode(request.getPassword()))
-                .name(AES256Utils.encrypt(request.getName()))
-                .role(request.getRole())
-                .nationId(request.getNationId())
-                .build();
-        memberStore.save(member);
-        return modelMapper.map(member, MemberResponse.class);
+    public MemberResponse save(MemberSaveRequest request) {
+        return modelMapper.map(memberStore.save(request.toEntity(passwordEncoder)), MemberResponse.class);
     }
 
-    public String login(@Valid MemberAuthRequest request) {
-        String encryptLoginId = AES256Utils.encrypt(request.getLoginId());
-        Member member = memberReader.findByLoginId(encryptLoginId);
+    public String login(@Valid MemberLoginRequest request) {
+        Member member = memberReader.findByLoginId(AES256Utils.encrypt(request.getLoginId()));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new MyException("비밀번호가 틀렸습니다.");
         }
@@ -41,12 +31,6 @@ public class MemberService {
     }
 
     public MemberResponse findById(Long memberId) {
-        Member member = memberReader.findById(memberId);
-        return MemberResponse.builder()
-                .memberId(member.getMemberId())
-                .nationId(member.getNationId())
-                .loginId(AES256Utils.decrypt(member.getLoginId()))
-                .name(AES256Utils.decrypt(member.getName()))
-                .build();
+        return new MemberResponse(memberReader.findById(memberId));
     }
 }

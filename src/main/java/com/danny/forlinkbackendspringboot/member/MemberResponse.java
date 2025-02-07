@@ -18,4 +18,11 @@ public class MemberResponse {
     private Integer nationId; // 국가 일련번호
     private String loginId; // 회원 로그인 아이디
     private String name; // 회원 이름
+
+    public MemberResponse(Member member) {
+        this.memberId = member.getMemberId();
+        this.nationId = member.getNationId();
+        this.loginId = member.getLoginId();
+        this.name = member.getName();
+    }
 }

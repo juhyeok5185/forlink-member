@@ -7,11 +7,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberRequest {
+public class MemberSaveRequest {
 
     @NotNull(message = "국가 ID는 필수입니다.")
     private Integer nationId;
@@ -33,4 +34,14 @@ public class MemberRequest {
 
     @NotNull
     private MemberRole role;
+
+    public Member toEntity(PasswordEncoder passwordEncoder) {
+        return Member.builder()
+                .nationId(nationId)
+                .loginId(loginId)
+                .password(passwordEncoder.encode(password))
+                .name(name)
+                .role(role)
+                .build();
+    }
 }
