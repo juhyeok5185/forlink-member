@@ -13,15 +13,14 @@ public class MemberApiController {
 
     private final MemberService memberService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<ApiResponse<MemberResponse>> save(@RequestBody @Valid MemberRequest request) {
         return ResponseEntity.ok(new ApiResponse<>(memberService.save(request)));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/sessions")
     public ResponseEntity<ApiResponse<String>> login(@RequestBody @Valid MemberAuthRequest request) {
-        String token = memberService.login(request);
-        return ResponseEntity.ok(new ApiResponse<>(token));
+        return ResponseEntity.status(201).body(new ApiResponse<>("저장 성공",201, memberService.login(request)));
     }
 
     @GetMapping("/{memberId}")

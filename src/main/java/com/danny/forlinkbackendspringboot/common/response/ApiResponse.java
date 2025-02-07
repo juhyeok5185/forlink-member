@@ -21,8 +21,8 @@ public class ApiResponse<T> {
     }
 
     // 성공 응답을 생성하는 정적 메서드
-    public static <T> ApiResponse<T> success(String message, T data) {
-        return new ApiResponse<>(message, 200, data);
+    public static <T> ApiResponse<T> success(String message,int status, T data) {
+        return new ApiResponse<>(message, status, data);
     }
 
     // 실패 응답을 생성하는 정적 메서드
