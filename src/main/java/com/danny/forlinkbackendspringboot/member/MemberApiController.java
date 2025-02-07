@@ -15,17 +15,17 @@ public class MemberApiController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<MemberResponse>> save(@RequestBody @Valid MemberSaveRequest request) {
-        return ResponseEntity.ok(new ApiResponse<>(memberService.save(request)));
+        return ResponseEntity.status(201).body(new ApiResponse<>("저장 성공",201,memberService.save(request)));
     }
 
     @PostMapping("/sessions")
     public ResponseEntity<ApiResponse<String>> login(@RequestBody @Valid MemberLoginRequest request) {
-        return ResponseEntity.status(201).body(new ApiResponse<>("저장 성공",201, memberService.login(request)));
+        return ResponseEntity.status(200).body(new ApiResponse<>("로그인 성공",200, memberService.login(request)));
     }
 
     @GetMapping("/{memberId}")
     public ResponseEntity<ApiResponse<MemberResponse>> findById(@PathVariable Long memberId) {
-        return ResponseEntity.ok(new ApiResponse<>(memberService.findById(memberId)));
+        return ResponseEntity.ok(new ApiResponse<>("조회 성공",200,memberService.findById(memberId)));
     }
 
 

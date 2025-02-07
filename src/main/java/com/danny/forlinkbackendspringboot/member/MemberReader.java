@@ -15,8 +15,8 @@ public class MemberReader {
                 .orElseThrow(() -> new MyException("사용자를 찾을 수 없습니다"));
     }
 
-
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() -> new MyException("사용자를 찾을 수 없습니다"));
     }
+
 }

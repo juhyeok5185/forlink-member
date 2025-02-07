@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,10 +21,14 @@ public class MemberService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public MemberResponse save(MemberSaveRequest request) {
-        return modelMapper.map(memberStore.save(request.toEntity(passwordEncoder)), MemberResponse.class);
+        Member member = request.toEntity(passwordEncoder);
+        saveValidation(member);
+        return modelMapper.map(memberStore.save(member), MemberResponse.class);
     }
 
+    @Transactional
     public String login(@Valid MemberLoginRequest request) {
         Member member = memberReader.findByLoginId(AES256Utils.encrypt(request.getLoginId()));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
@@ -30,7 +37,15 @@ public class MemberService {
         return "Bearer " + JWTUtils.generateToken(member.getLoginId(), member.getRole().name());
     }
 
+    @Transactional(readOnly = true)
     public MemberResponse findById(Long memberId) {
         return new MemberResponse(memberReader.findById(memberId));
+    }
+
+    public void saveValidation(Member member) {
+        Optional.ofNullable(memberReader.findByLoginId(member.getLoginId()))
+                .ifPresent(existing -> {
+                    throw new MyException("이미 등록된 아이디 입니다.");
+                });
     }
 }
