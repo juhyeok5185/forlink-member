@@ -18,7 +18,6 @@ public class MemberService {
 
     private final MemberReader memberReader;
     private final MemberStore memberStore;
-    private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final MemberFactory memberFactory;
 
@@ -26,7 +25,7 @@ public class MemberService {
     public MemberResponse save(MemberSaveRequest request) {
         Member member = memberFactory.createMember(request);
         saveValidation(member);
-        return modelMapper.map(memberStore.save(member), MemberResponse.class);
+        return memberFactory.createMemberResponse(memberStore.save(member));
     }
 
     @Transactional

@@ -2,7 +2,6 @@ package com.danny.forlinkbackendspringboot.member;
 
 import com.danny.forlinkbackendspringboot.common.encrypt.Encryptor;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
