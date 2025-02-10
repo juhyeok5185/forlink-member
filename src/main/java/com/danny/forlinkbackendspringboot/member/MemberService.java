@@ -20,16 +20,11 @@ public class MemberService {
     private final MemberStore memberStore;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final MemberFactory memberFactory;
 
     @Transactional
     public MemberResponse save(MemberSaveRequest request) {
-        Member member = Member.builder()
-                    .nationId(request.getNationId())
-                    .loginId(AES256Utils.encrypt(request.getLoginId()))
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .name(AES256Utils.encrypt(request.getName()))
-                    .role(request.getRole())
-                    .build();
+        Member member = memberFactory.createMember(request);
         saveValidation(member);
         return modelMapper.map(memberStore.save(member), MemberResponse.class);
     }
@@ -45,7 +40,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MemberResponse findById(Long memberId) {
-        return new MemberResponse(memberReader.findById(memberId));
+        return memberFactory.createMemberResponse(memberReader.findById(memberId));
     }
 
     public void saveValidation(Member member) {
