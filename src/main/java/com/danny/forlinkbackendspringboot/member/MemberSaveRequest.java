@@ -1,5 +1,6 @@
 package com.danny.forlinkbackendspringboot.member;
 
+import com.danny.forlinkbackendspringboot.common.util.AES256Utils;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -35,13 +36,4 @@ public class MemberSaveRequest {
     @NotNull
     private MemberRole role;
 
-    public Member toEntity(PasswordEncoder passwordEncoder) {
-        return Member.builder()
-                .nationId(nationId)
-                .loginId(loginId)
-                .password(passwordEncoder.encode(password))
-                .name(name)
-                .role(role)
-                .build();
-    }
 }

@@ -23,7 +23,13 @@ public class MemberService {
 
     @Transactional
     public MemberResponse save(MemberSaveRequest request) {
-        Member member = request.toEntity(passwordEncoder);
+        Member member = Member.builder()
+                    .nationId(request.getNationId())
+                    .loginId(AES256Utils.encrypt(request.getLoginId()))
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .name(AES256Utils.encrypt(request.getName()))
+                    .role(request.getRole())
+                    .build();
         saveValidation(member);
         return modelMapper.map(memberStore.save(member), MemberResponse.class);
     }
